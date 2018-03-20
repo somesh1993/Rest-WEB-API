@@ -36,26 +36,24 @@ namespace MVCWebAPI.Controllers
             return emplylist;
         }
         // GET api/values/GetSelectedEmployees
-        public IEnumerable<Employee> GetSelectedEmployees()
+        public Employee GetSelectedEmployees(string id)
         {
             con.Open();
-            List<Employee> emplylist = new List<Employee>();
-            SqlCommand cmd = new SqlCommand("select * from Datastorage where Name='sam'", con);
-            cmd.ExecuteNonQuery();
-            DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dt);
-            foreach (DataRow dr in dt.Rows)
+            //List<Employee> emplylist = new List<Employee>();
+            Employee emply = new Employee();
+            string selectString = "select * from Datastorage where Name=" + "'" + id + "'";
+            SqlCommand cmd = new SqlCommand(selectString, con);
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
             {
-                Employee emp = new Employee();
-                emp.Name = dr["Name"].ToString();
-                emp.Mobile = Convert.ToInt32(dr["Mobile"]);
-                emp.Email = dr["Email"].ToString();
-                emp.Id = Convert.ToInt32(dr["Id"]);
-                emplylist.Add(emp);
+                emply.Name = (string)rdr["Name"];
+                emply.Mobile = Convert.ToInt32(rdr["Mobile"]);
+                emply.Email = (string)rdr["Email"];
+                emply.Id = Convert.ToInt32(rdr["Id"]);
             }
+            //emplylist.Add(emply);
             con.Close();
-            return emplylist;
+            return emply;
         }
 
         // GET api/values/Get/5
