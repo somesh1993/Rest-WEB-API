@@ -1,0 +1,3 @@
+Open "Run" or Windows + R.
+Run the command "  chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security ".
+Now we don't have to apply cors in either client or web api side.
